@@ -264,3 +264,31 @@ function renderAll(){
 initTheme();
 bindEvents();
 renderAll();
+
+// ---- visitor counter ----
+const VISITOR_COUNT_KEY = "mongpick_visitor_count";
+
+function getVisitorCount() {
+  let count = localStorage.getItem(VISITOR_COUNT_KEY);
+  if (count === null) {
+    count = 0;
+  }
+  return parseInt(count, 10);
+}
+
+function incrementVisitorCount() {
+  let count = getVisitorCount();
+  count += 1;
+  localStorage.setItem(VISITOR_COUNT_KEY, count);
+  return count;
+}
+
+function updateVisitorCount() {
+  const count = incrementVisitorCount();
+  const el = document.getElementById("visitor-count");
+  if (el) {
+    el.textContent = count;
+  }
+}
+
+updateVisitorCount();
