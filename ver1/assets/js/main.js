@@ -59,10 +59,19 @@ function filteredTests(){
   return items;
 }
 
-// ✅ 더미 이미지 경로 (id 기반)
-// assets/img/thumb-1.jpg ... thumb-10.jpg 필요
+// ✅ 이미지 경로: 전부 ver1/assets 폴더 기준 (MOMOPICK_ASSETS 또는 자동 감지)
+(function setAssetsBase(){
+  if (typeof window === "undefined") return;
+  if (window.MOMOPICK_ASSETS) return;
+  var script = document.currentScript;
+  if (script && script.src && script.src.indexOf("/ver1/") !== -1) {
+    var path = document.location.pathname || "";
+    window.MOMOPICK_ASSETS = path.indexOf("/ver1/") !== -1 && path.match(/\/ver1\/[^/]+\//) ? "../assets" : "assets";
+  }
+})();
 function thumbSrc(id){
-  return `assets/img/thumb-${id}.jpg`;
+  const base = (typeof window !== "undefined" && window.MOMOPICK_ASSETS) ? window.MOMOPICK_ASSETS : "assets";
+  return base + "/img/thumb-" + id + ".jpg";
 }
 
 // ---- render ----
